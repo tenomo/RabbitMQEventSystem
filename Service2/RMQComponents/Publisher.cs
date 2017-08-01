@@ -35,10 +35,11 @@ namespace Service2.RMQComponents
             var binaryRequest = serializationStream.ToArray();
             var properties = Chanel.CreateBasicProperties();
             properties.Persistent = true;
+            properties.ContentType = EventType.Request.ToString();
             serializationStream.Dispose();
-            string routingKey = String.Concat(QueueName,RoutingKeyModifier.Request);
+
             Chanel.BasicPublish(exchange: "",
-                routingKey: ExtensionMethods.CreateRoutinKey(QueueName,RoutingKeyModifier.Request),
+                routingKey: QueueName,//ExtensionMethods.CreateRoutinKey(QueueName,EventType.Request),
                 basicProperties: properties, 
                 body: binaryRequest);
         }
@@ -66,7 +67,7 @@ namespace Service2.RMQComponents
 
         private void Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
-            if (this.ReciveResponse != null && ExtensionMethods.GetEventType(e.RoutingKey) == RoutingKeyModifier.Response)
+            if (this.ReciveResponse != null && ExtensionMethods.isEventType(e.RoutingKey,EventType.Response))
             {
                 ReciveResponse(sender, e);
             }

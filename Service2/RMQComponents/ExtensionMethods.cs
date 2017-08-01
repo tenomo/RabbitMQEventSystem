@@ -4,7 +4,7 @@ using RabbitMQ.Client.Events;
 
 namespace Service2.RMQComponents
 { 
-   public enum RoutingKeyModifier
+   public enum EventType
     {
         Request,
         Response
@@ -15,28 +15,45 @@ namespace Service2.RMQComponents
     /// </summary>
     /// <param name="consumer"></param>
     /// <param name="chanel"></param>
-    public delegate void ResponseSender(BasicDeliverEventArgs e, IModel chanel, string routingKey);
+    public delegate void ResponseSender(BasicDeliverEventArgs e, IModel chanel, string contentType);
 
     public static class ExtensionMethods
     {
-        public static RoutingKeyModifier GetEventType(string routingKey)
+        //public static EventType isEventType(string routingKey)
+        //{
+        //    if (routingKey.ToUpper().Contains(EventType.Request.ToString().ToUpper()))
+        //        return EventType.Request;
+        //    else if (routingKey.ToUpper().Contains(EventType.Response.ToString().ToUpper()))
+        //    {
+        //        return EventType.Response;
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentException("Invalid routing key, it is not contains EventType");
+        //    }
+        //}
+
+        public static bool isEventType(string eventType, EventType idial)
         {
-            if (routingKey.ToUpper().Contains(RoutingKeyModifier.Request.ToString().ToUpper()))
-                return RoutingKeyModifier.Request;
-            else if (routingKey.ToUpper().Contains(RoutingKeyModifier.Response.ToString().ToUpper()))
+            try
             {
-                return RoutingKeyModifier.Response;
+                EventType eType;
+                EventType.TryParse(eventType, out eType);
+                return idial == eType;
             }
-            else
+            catch (ArgumentException e)
             {
-                throw new ArgumentException("Invalid routing key, it is not contains RoutingKeyModifier");
+                throw new ArgumentException("Invalid routing key, it is not contains EventType", e);
             }
+
+
         }
 
-        public static string CreateRoutinKey( string queueName, RoutingKeyModifier key)
-        {
-            return queueName + key;
-        }
+        //public static string CreateRoutinKey( string queueName, EventType key)
+        //{
+        //    var rkey = queueName + key;
+        //    return rkey;
+        //}
     }
 
 }

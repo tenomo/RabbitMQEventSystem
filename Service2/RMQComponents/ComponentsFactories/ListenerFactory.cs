@@ -12,14 +12,14 @@ namespace Service2.RMQComponents.ComponentsFactories
         {
             var connection = ConnectionFactory.CreateConection(hostName);
             var chanel = ChanelFactory.CreateChanel(queueName, connection);
-            var responseSenderChanel = ChanelFactory.CreateChanel(queueName, connection);
+          //  var responseSenderChanel = ChanelFactory.CreateChanel(queueName, connection);
             var consumer =ConsumerFactory.CreateConsumer(chanel,queueName);
 
             chanel.BasicConsume(queue: queueName,
                 autoAck: true,
                 consumer: consumer);
 
-            return new Listener(chanel, responseSenderChanel, consumer,queueName,receivedHandler,responseSender);
+            return new Listener(chanel, /*responseSenderChanel,*/ consumer,queueName,receivedHandler,responseSender);
    
         }
 

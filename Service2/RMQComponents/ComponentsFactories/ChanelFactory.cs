@@ -3,7 +3,7 @@ using RabbitMQ.Client;
 
 namespace Service2.RMQComponents.ComponentsFactories
 {
-    class ChanelFactory
+   public class ChanelFactory
     {
         /// <summary>
         /// Create the queue chanel to RabbitMq. 

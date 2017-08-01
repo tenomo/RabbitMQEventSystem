@@ -2,7 +2,7 @@
 
 namespace Service2.RMQComponents.ComponentsFactories
 {
-    class ConnectionFactory
+   public class ConnectionFactory
     {
         /// <summary>
         /// Create conection to RabbitMq.  
@@ -12,8 +12,8 @@ namespace Service2.RMQComponents.ComponentsFactories
         /// <param name="socketReadTimeout">Timeout setting for socket read operations (in milliseconds).</param>
         /// <param name="socketWriteTimeout">Timeout setting for socket write operations (in milliseconds).</param>
         /// <returns></returns>
-        public static IConnection CreateConection(string hostName, int socketReadTimeout = 15000,
-            int socketWriteTimeout = 15000)
+        public static IConnection CreateConection(string hostName, int socketReadTimeout = 30000,
+            int socketWriteTimeout = 30000)
         {
             var factory = new RabbitMQ.Client.ConnectionFactory()
             {

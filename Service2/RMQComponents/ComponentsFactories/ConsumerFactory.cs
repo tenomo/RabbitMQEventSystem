@@ -8,7 +8,7 @@ using RabbitMQ.Client.Events;
 
 namespace Service2.RMQComponents.ComponentsFactories
 {
-    class ConsumerFactory
+   public class ConsumerFactory
     {
         /// <summary>
         /// Creaye RabbitMq event responseConsumer

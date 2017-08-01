@@ -9,10 +9,22 @@ namespace Service2.RMQComponents.ComponentsFactories
     {
         public static Publisher CreatePublisher(IConnection connection, IModel chanel, string queueName)
         { 
+            
             return new Publisher(connection,chanel,queueName );
         }
 
-       
+
+        public static Publisher CreatePublisher(IConnection connection, IModel chanel, string queueName,
+        EventHandler<BasicDeliverEventArgs> receivedHandler)
+        {
+            
+            var consumer = ConsumerFactory.CreateConsumer(chanel, queueName);
+             
+
+            return new Publisher(connection, chanel, queueName, consumer, receivedHandler
+            );
+        }
+
 
         public static Publisher CreatePublisher(string hostName, string queueName,
             EventHandler<BasicDeliverEventArgs> receivedHandler)
@@ -20,11 +32,6 @@ namespace Service2.RMQComponents.ComponentsFactories
             var connection = ConnectionFactory.CreateConection(hostName);
             var chanel = ChanelFactory.CreateChanel(queueName, connection);
             var consumer = ConsumerFactory.CreateConsumer(chanel, queueName );
-
-            chanel.BasicConsume(queue: queueName,
-                autoAck: true,
-                consumer: consumer);
-
             return new Publisher(connection, chanel,queueName,consumer,receivedHandler
             );
         }

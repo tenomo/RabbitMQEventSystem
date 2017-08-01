@@ -15,7 +15,7 @@ namespace Service2.RMQComponents
         /// <summary>
         /// ListenerChanel to RabbitMq service
         /// </summary>
-        public IModel ResponseSenderChanel { get; private set; }
+    //    public IModel ResponseSenderChanel { get; private set; }
 
         /// <summary>
         /// RabbitMq event consumer.
@@ -40,11 +40,11 @@ namespace Service2.RMQComponents
             this.Consumer.Received += Consumer_Received;
         }
 
-        internal Listener(IModel listenerChanel, IModel responseSenderChanel, EventingBasicConsumer consumer,
+        internal Listener(IModel listenerChanel/*, IModel responseSenderChanel*/, EventingBasicConsumer consumer,
             string queueName, EventHandler<BasicDeliverEventArgs> receivedHandler, ResponseSender responseSender)
         {
             this.ListenerChanel = listenerChanel;
-            this.ResponseSenderChanel = responseSenderChanel;
+            //this.ResponseSenderChanel = responseSenderChanel;
             this.Consumer = consumer;
             this.queueName = queueName;
             this.ReceivedHandler = receivedHandler;
@@ -54,15 +54,15 @@ namespace Service2.RMQComponents
         }
 
         private void Consumer_Received(object sender, BasicDeliverEventArgs e)
-        {
-
+        { 
             Task.Factory.StartNew(() =>
             {
-                if (this.ReceivedHandler != null && ExtensionMethods.GetEventType(e.RoutingKey) == RoutingKeyModifier.Request)
-                {
+                if (this.ReceivedHandler != null && ExtensionMethods.isEventType(e.BasicProperties.Type, EventType.Request))  //ExtensionMethods.isEventType(e.RoutingKey) == EventType.Request)
+                { 
                     this.ReceivedHandler(sender, e);
-                   //this.ResponseSender?.Invoke(e, this.ResponseSenderChanel,
-                    //    ExtensionMethods.CreateRoutinKey(this.queueName, RoutingKeyModifier.Response));
+                    ResponseSender(e, ListenerChanel, EventType.Response.ToString()); /*ExtensionMethods.CreateRoutinKey(queueName, EventType.Response)*/
+                    //this.ResponseSender?.Invoke(e, this.ResponseSenderChanel,
+                    //    ExtensionMethods.CreateRoutinKey(this.queueName, EventType.Response));
                 }
             });
         }
