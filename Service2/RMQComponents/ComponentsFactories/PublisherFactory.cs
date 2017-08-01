@@ -36,6 +36,13 @@ namespace Service2.RMQComponents.ComponentsFactories
             );
         }
 
-      
+        public static Publisher CreatePublisher(string hostName, string queueName )
+        {
+            var connection = ConnectionFactory.CreateConection(hostName);
+            var chanel = ChanelFactory.CreateChanel(queueName, connection); 
+            return new Publisher(connection, chanel, queueName);
+        }
+
+
     }
 }

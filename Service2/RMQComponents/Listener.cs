@@ -60,10 +60,12 @@ namespace Service2.RMQComponents
                 if (this.ReceivedHandler != null && ExtensionMethods.isEventType(e.BasicProperties.Type, EventType.Request))  //ExtensionMethods.isEventType(e.RoutingKey) == EventType.Request)
                 { 
                     this.ReceivedHandler(sender, e);
-                    ResponseSender(e, ListenerChanel, EventType.Response.ToString()); /*ExtensionMethods.CreateRoutinKey(queueName, EventType.Response)*/
+                    ResponseSender?.Invoke(e, ListenerChanel, EventType.Response.ToString()); /*ExtensionMethods.CreateRoutinKey(queueName, EventType.Response)*/
                     //this.ResponseSender?.Invoke(e, this.ResponseSenderChanel,
                     //    ExtensionMethods.CreateRoutinKey(this.queueName, EventType.Response));
+                    Consumer.HandleBasicConsumeOk(Consumer.ConsumerTag);
                 }
+              
             });
         }
     }

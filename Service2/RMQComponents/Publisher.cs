@@ -35,7 +35,8 @@ namespace Service2.RMQComponents
             var binaryRequest = serializationStream.ToArray();
             var properties = Chanel.CreateBasicProperties();
             properties.Persistent = true;
-            properties.ContentType = EventType.Request.ToString();
+            properties.Type= EventType.Request.ToString();
+         
             serializationStream.Dispose();
 
             Chanel.BasicPublish(exchange: "",
@@ -67,7 +68,7 @@ namespace Service2.RMQComponents
 
         private void Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
-            if (this.ReciveResponse != null && ExtensionMethods.isEventType(e.RoutingKey,EventType.Response))
+            if (this.ReciveResponse != null && ExtensionMethods.isEventType(e.BasicProperties.Type,EventType.Response))
             {
                 ReciveResponse(sender, e);
             }
