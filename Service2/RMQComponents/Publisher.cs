@@ -81,7 +81,10 @@ namespace Service2.RMQComponents
             if (this.ReciveResponse != null /*&& ExtensionMethods.isEventType(e.RoutingKey,EventType.Response)*/)
             {
                 ReciveResponse(sender, e);
+                Consumer.HandleBasicCancelOk(Consumer.ConsumerTag);
+               // Consumer.HandleBasicConsumeOk(Consumer.ConsumerTag);
             }
+            else throw new ArgumentException("ReciveResponse must be not null");
         }
     }
 }

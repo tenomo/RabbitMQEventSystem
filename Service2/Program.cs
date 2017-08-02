@@ -113,7 +113,7 @@
 //            //var rb_mq_conecton = RMQComponents.ComponentsFactories.ConnectionFactory.CreateConection("localhost");
 
 //            //var rb_mq_chanel = ChanelFactory.CreateChanel(TEST_QUEUE_2, rb_mq_conecton);
-//            //var rb_mq_consumer = ConsumerFactory.CreateConsumer(rb_mq_chanel, TEST_QUEUE_2, ReceivedHandler, ResponseSender);
+//            //var rb_mq_consumer = ConsumerFactory.RequestConsumer(rb_mq_chanel, TEST_QUEUE_2, ReceivedHandler, ResponseSender);
 
 //            //var rabbitMqListener = ListenerFactory.CreateListener(rb_mq_conecton, rb_mq_chanel, rb_mq_consumer);
 

@@ -7,17 +7,9 @@ namespace Service2.RMQComponents.ComponentsFactories
    public class ChanelFactory
     {
 
-        private static string GetRequestQueueName(string queueName)
-        {
-            return ExtensionMethods.CreateRoutinKey(queueName, EventType.Request);  
-        }
+      
 
-        private static string GetResponseQeueName (string queueName)
-        {
-              return ExtensionMethods.CreateRoutinKey(queueName, EventType.Response); 
-        }
 
-     
 
         /// <summary>
         /// Create the queue chanel to RabbitMq. 
@@ -29,7 +21,7 @@ namespace Service2.RMQComponents.ComponentsFactories
         {
             // Create and return a fresh channel, session, and model.
             var chanel = connection.CreateModel();
-            var requestQueueName  = GetRequestQueueName(queueName);
+            var requestQueueName  = ExtensionMethods.GetRequestQueueName(queueName);
             chanel.QueueDeclare(queue: requestQueueName,
                 durable: false,
                 exclusive: false,
@@ -50,7 +42,7 @@ namespace Service2.RMQComponents.ComponentsFactories
             // Create and return a fresh channel, session, and model.
             var chanel = connection.CreateModel();
 
-            var requestQueueName = GetRequestQueueName(queueName);
+            var requestQueueName = ExtensionMethods.GetRequestQueueName(queueName);
             chanel.QueueDeclare(queue: requestQueueName,
                 durable: false,
                 exclusive: false,
@@ -74,7 +66,7 @@ namespace Service2.RMQComponents.ComponentsFactories
             // Create and return a fresh channel, session, and model.
             var chanel = connection.CreateModel();
 
-            var responseQueueName = GetResponseQeueName(queueName);
+            var responseQueueName = ExtensionMethods.GetResponseQeueName(queueName);
             chanel.QueueDeclare(queue: responseQueueName,
                 durable: false,
                 exclusive: false,
@@ -94,7 +86,7 @@ namespace Service2.RMQComponents.ComponentsFactories
         {
             var chanel = connection.CreateModel();
 
-            var requestQueueName = GetRequestQueueName(queueName);
+            var requestQueueName = ExtensionMethods.GetRequestQueueName(queueName);
             chanel.QueueDeclare(queue: requestQueueName,
                 durable: false,
                 exclusive: false,

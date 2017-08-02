@@ -12,7 +12,7 @@ namespace Service2.RMQComponents.ComponentsFactories
         {
             var connection = ConnectionFactory.CreateConection( hostName);
             var chanel = ChanelFactory.CreateRequestChanel(queueName,connection);
-            var consumer = ConsumerFactory.CreateConsumer(chanel, queueName);
+            var consumer = ConsumerFactory.RequestConsumer(chanel, queueName);
             return new Listener(chanel, consumer, queueName, receivedHandler);
         }
 
@@ -26,7 +26,7 @@ namespace Service2.RMQComponents.ComponentsFactories
 
             var sender = PublisherFactory.CreateResponseSender(hostName, queueName);
 
-            var consumer = ConsumerFactory.CreateConsumer(requestChanel, queueName);
+            var consumer = ConsumerFactory.RequestConsumer(requestChanel, queueName);
             return new Listener(requestChanel, consumer, queueName, receivedHandler,sender, binarySender);
         }
 
@@ -38,7 +38,7 @@ namespace Service2.RMQComponents.ComponentsFactories
 
             var sender = PublisherFactory.CreateResponseSender(hostName, queueName);
 
-            var consumer = ConsumerFactory.CreateConsumer(requestChanel, queueName);
+            var consumer = ConsumerFactory.RequestConsumer(requestChanel, queueName);
             return new Listener(requestChanel, consumer, queueName, receivedHandler, sender, objectSender);
         }
 

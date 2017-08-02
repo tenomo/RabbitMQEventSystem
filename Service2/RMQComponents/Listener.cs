@@ -71,10 +71,10 @@ namespace Service2.RMQComponents
                 try
                 {
                     if (this.ReceivedHandler == null) throw new ArgumentException("ReceivedHandler must be not null");
-                    if (ExtensionMethods.isEventType(e.RoutingKey, EventType.Request))
-                    {
-                        throw new ArgumentException("Routing key must be containe \"Request\"");
-                    }
+                    //if (ExtensionMethods.isEventType(e.RoutingKey, EventType.Request))
+                    //{
+                    //    throw new ArgumentException("Routing key must be containe \"Request\"");
+                    //}
                     this.ReceivedHandler(sender, e);
 
                     if (binarySender != null)
@@ -87,7 +87,8 @@ namespace Service2.RMQComponents
                         var objectBody = objectSender.Invoke(e);
                         responceSender.Publish(objectBody);
                     }
-                    consumer.HandleBasicConsumeOk(consumer.ConsumerTag);
+                     consumer.HandleBasicConsumeOk(consumer.ConsumerTag);
+                 //   consumer.HandleBasicCancelOk(consumer.ConsumerTag);
                 }
                 catch (ArgumentException exception)
                 {

@@ -44,23 +44,22 @@ namespace Service2.RMQComponents
 
         public static bool isEventType(string queueName, EventType idial)
         {
-            //try
-            //{
-                if (queueName.ToUpper().Contains(idial.ToString().ToUpper()))
-                    return  true;
-                return false;
 
+            var isEventType = queueName.Contains(idial.ToString());
 
-
-            ////}
-            ////catch (ArgumentException e)
-            ////{
-            ////    throw new ArgumentException("Invalid routing key, it is not contains EventType", e);
-            ////}
-
-
+            return isEventType;
         }
 
+
+        public static string GetRequestQueueName(string queueName)
+        {
+            return ExtensionMethods.CreateRoutinKey(queueName, EventType.Request);
+        }
+
+        public static string GetResponseQeueName(string queueName)
+        {
+            return ExtensionMethods.CreateRoutinKey(queueName, EventType.Response);
+        }
         public static string CreateRoutinKey(string queueName, EventType key)
         {
             var rkey = queueName + key;

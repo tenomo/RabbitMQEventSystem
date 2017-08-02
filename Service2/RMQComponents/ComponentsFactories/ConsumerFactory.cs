@@ -17,18 +17,33 @@ namespace Service2.RMQComponents.ComponentsFactories
         /// <param name="receivedHandler"></param>
         /// <param name="responseSender"></param>
         /// <returns></returns>
-        public static EventingBasicConsumer CreateConsumer(IModel chanel, string queueName)
+        public static EventingBasicConsumer RequestConsumer(IModel chanel, string queueName)
         {
             var consumer = new EventingBasicConsumer(chanel);
-            chanel.BasicConsume(queue: queueName,
-                autoAck: false,
+            chanel.BasicConsume(queue: ExtensionMethods.GetRequestQueueName(queueName),
+                autoAck: true,
                 consumer: consumer);
 
             return consumer;
         }
 
-      
 
-       
+        /// <summary>
+        /// Creaye RabbitMq event responseConsumer
+        /// </summary>
+        /// <param name="chanel"></param>
+        /// <param name="receivedHandler"></param>
+        /// <param name="responseSender"></param>
+        /// <returns></returns>
+        public static EventingBasicConsumer ReponceConsumer(IModel chanel, string queueName)
+        {
+            var consumer = new EventingBasicConsumer(chanel);
+            chanel.BasicConsume(queue: ExtensionMethods.GetResponseQeueName(queueName),
+                autoAck: true,
+                consumer: consumer);
+
+            return consumer;
+        }
+
     }
 }
