@@ -5,23 +5,36 @@ namespace Service2.RMQComponents.ComponentsFactories
 {
    public class ChanelFactory
     {
+
+        private static string GetRequestQueueName(string queueName)
+        {
+            return ExtensionMethods.CreateRoutinKey(queueName, EventType.Request);  
+        }
+
+        private static string GetResponseQeueName (string queueName)
+        {
+              return ExtensionMethods.CreateRoutinKey(queueName, EventType.Response); 
+        }
+
+     
+
         /// <summary>
         /// Create the queue chanel to RabbitMq. 
         /// </summary>
         /// <param name="queueName"></param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public static IModel CreateChanel(string queueName, IConnection connection)
+        public static IModel CreateRequestChanel(string queueName, IConnection connection)
         {
             // Create and return a fresh channel, session, and model.
-            var channel = connection.CreateModel();
-
-            channel.QueueDeclare(queue: queueName,
+            var chanel = connection.CreateModel();
+            var requestQueueName  = GetRequestQueueName(queueName);
+            chanel.QueueDeclare(queue: requestQueueName,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-            return channel;
+            return chanel;
         }
 
         /// <summary>
@@ -30,18 +43,62 @@ namespace Service2.RMQComponents.ComponentsFactories
         /// <param name="queueName"></param>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public static IModel CreateChanel(string queueName, IConnection connection,
+        public static IModel CreateRequestChanel(string queueName, IConnection connection,
             IDictionary<string, object> arguments)
         {
             // Create and return a fresh channel, session, and model.
-            var channel = connection.CreateModel();
+            var chanel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: queueName,
+            var requestQueueName = GetRequestQueueName(queueName);
+            chanel.QueueDeclare(queue: requestQueueName,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
                 arguments: arguments);
-            return channel;
+            return chanel;
+        }
+
+
+
+
+        /// <summary>
+        /// Create the queue chanel to RabbitMq. 
+        /// </summary>
+        /// <param name="queueName"></param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public static IModel CreateResponseChanel(string queueName, IConnection connection)
+        {
+            // Create and return a fresh channel, session, and model.
+            var chanel = connection.CreateModel();
+
+            var responseQueueName = GetResponseQeueName(queueName);
+            chanel.QueueDeclare(queue: responseQueueName,
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            return chanel;
+        }
+
+        /// <summary>
+        /// Create the queue chanel to RabbitMq. 
+        /// </summary>
+        /// <param name="queueName"></param>
+        /// <param name="connection"></param>
+        /// <returns></returns>
+        public static IModel CreateResponseChanel(string queueName, IConnection connection,
+            IDictionary<string, object> arguments)
+        {
+            var chanel = connection.CreateModel();
+
+            var requestQueueName = GetRequestQueueName(queueName);
+            chanel.QueueDeclare(queue: requestQueueName,
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: arguments);
+            return chanel;
         }
     }
 }

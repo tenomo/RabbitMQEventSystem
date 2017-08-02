@@ -1,4 +1,5 @@
 ﻿using  System;
+using System.Runtime.InteropServices;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -33,27 +34,30 @@ namespace Service2.RMQComponents
         //    }
         //}
 
-        public static bool isEventType(string eventType, EventType idial)
+        public static bool isEventType(string queueName, EventType idial)
         {
-            try
-            {
-                EventType eType;
-                EventType.TryParse(eventType, out eType);
-                return idial == eType;
-            }
-            catch (ArgumentException e)
-            {
-                throw new ArgumentException("Invalid routing key, it is not contains EventType", e);
-            }
+            //try
+            //{
+                if (queueName.ToUpper().Contains(idial.ToString().ToUpper()))
+                    return  true;
+                return false;
+
+
+
+            ////}
+            ////catch (ArgumentException e)
+            ////{
+            ////    throw new ArgumentException("Invalid routing key, it is not contains EventType", e);
+            ////}
 
 
         }
 
-        //public static string CreateRoutinKey( string queueName, EventType key)
-        //{
-        //    var rkey = queueName + key;
-        //    return rkey;
-        //}
+        public static string CreateRoutinKey(string queueName, EventType key)
+        {
+            var rkey = queueName + key;
+            return rkey;
+        }
     }
 
 }

@@ -15,7 +15,8 @@ namespace ConsoleApp2
         static void Main(string[] args)
         {
             var conn = Service2.RMQComponents.ComponentsFactories.ConnectionFactory.CreateConection("localhost");
-            var listener = ListenerFactory.CreateListener(ChanelFactory.CreateChanel("test_lib",conn), "test_lib", ReceivedHandler/*, ResponseSender */);
+            //var listener = ListenerFactory.CreateListener(ChanelFactory.CreateChanel("test_lib",conn), "test_lib", ReceivedHandler, ResponseSender );
+            var listener = ListenerFactory.CreateListener("localhost", "test_lib", ReceivedHandler, ResponseSender);
             Console.ReadKey();
         }
 

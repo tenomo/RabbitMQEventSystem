@@ -3,22 +3,19 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-
+using Service2.RMQComponents.ComponentsFactories;
 namespace Service2.RMQComponents
 {
    public class Publisher
     {
-        /// <summary>
-        /// Connection to RabbitMq service.
-        /// </summary>
-        public IConnection Connection { get; private set; }
-
+        ///// <summary>
+        ///// Connection to RabbitMq service.
+        ///// </summary>
+      //  public IConnection Connection { get; private set; }
         public string QueueName { get; private set; }
-        /// <summary>
-        /// ListenerChanel to RabbitMq service
-        /// </summary>
-        public IModel Chanel { get; private set; }
-
+       
+        public IModel RequestChanel { get; private set; }
+        public IModel ResponseChanel { get; private set; }
 
         /// <summary>
         /// RabbitMq event responseConsumer.
@@ -33,34 +30,42 @@ namespace Service2.RMQComponents
             var serializationStream = new MemoryStream();
             formatter.Serialize(serializationStream, body);
             var binaryRequest = serializationStream.ToArray();
-            var properties = Chanel.CreateBasicProperties();
+            var properties = RequestChanel.CreateBasicProperties();
             properties.Persistent = true;
-            properties.Type= EventType.Request.ToString();
-         
+
+           
             serializationStream.Dispose();
 
-            Chanel.BasicPublish(exchange: "",
-                routingKey: QueueName,//ExtensionMethods.CreateRoutinKey(QueueName,EventType.Request),
+            RequestChanel.BasicPublish(exchange: "",
+                routingKey:  ExtensionMethods.CreateRoutinKey(QueueName,EventType.Request),
                 basicProperties: properties, 
                 body: binaryRequest);
         }
 
-
-
-        internal Publisher(IConnection connection, IModel chanel, string queueName )
+        public void Publish(byte [] body)
         {
-            this.Chanel = chanel;
-            this.Connection = connection; 
+            var properties = RequestChanel.CreateBasicProperties();
+            properties.Persistent = true;
+            RequestChanel.BasicPublish(exchange: "",
+                routingKey: ExtensionMethods.CreateRoutinKey(QueueName, EventType.Request),
+                basicProperties: properties,
+                body: body);
+        }
+
+
+
+        internal Publisher( IModel requestChanel, string queueName )
+        {
+            this.RequestChanel = requestChanel; 
             QueueName = queueName;
 
 
         }
 
-        internal Publisher(IConnection connection, IModel chanel, string queueName, EventingBasicConsumer responseConsumer, EventHandler<BasicDeliverEventArgs> reciveResponse)
+        internal Publisher( IModel requestChanel, IModel responseChanel, string queueName, EventHandler<BasicDeliverEventArgs> reciveResponse, EventingBasicConsumer consumer)
         {
-            this.Chanel = chanel;
-            this.Connection = connection;
-            this.Consumer = responseConsumer;
+            this.RequestChanel = requestChanel;
+            this.Consumer = consumer;
             QueueName = queueName;
             ReciveResponse = reciveResponse;
             Consumer.Received += Consumer_Received;
@@ -68,7 +73,7 @@ namespace Service2.RMQComponents
 
         private void Consumer_Received(object sender, BasicDeliverEventArgs e)
         {
-            if (this.ReciveResponse != null && ExtensionMethods.isEventType(e.BasicProperties.Type,EventType.Response))
+            if (this.ReciveResponse != null /*&& ExtensionMethods.isEventType(e.RoutingKey,EventType.Response)*/)
             {
                 ReciveResponse(sender, e);
             }
