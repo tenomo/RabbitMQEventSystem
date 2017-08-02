@@ -18,43 +18,30 @@ namespace Service2.RMQComponents.ComponentsFactories
 
 
 
-        public static Listener CreateListener(string hostName, string queueName, EventHandler<BasicDeliverEventArgs> receivedHandler)
+        public static Listener CreateListener(string hostName, string queueName, EventHandler<BasicDeliverEventArgs> receivedHandler, ResponseBynarySender binarySender)
         {
             var connection = ConnectionFactory.CreateConection(hostName);
             var requestChanel = ChanelFactory.CreateRequestChanel(queueName, connection);
-            var responseChanel = ChanelFactory.CreateRequestChanel(queueName, connection);
+    
 
-            var sender = PublisherFactory.CreatePublisher(hostName, queueName);
+            var sender = PublisherFactory.CreateResponseSender(hostName, queueName);
 
             var consumer = ConsumerFactory.CreateConsumer(requestChanel, queueName);
-            return new Listener(requestChanel, consumer, queueName, receivedHandler);
+            return new Listener(requestChanel, consumer, queueName, receivedHandler,sender, binarySender);
         }
 
-
-        //public static Listener CreateListener(string hostName, string queueName,
-        //  EventHandler<BasicDeliverEventArgs> receivedHandler,
-        //  ResponseSender responseSender)
-        //{
-        //    var connection = ConnectionFactory.CreateConection(hostName);
-        //    var chanel = ChanelFactory.CreateChanel(queueName, connection);
-        //  //  var responseSenderChanel = ChanelFactory.CreateChanel(queueName, connection);
-        //    var consumer =ConsumerFactory.CreateConsumer(chanel,queueName);
-
-        //    chanel.BasicConsume(queue: queueName,
-        //        autoAck: true,
-        //        consumer: consumer);
-
-        //    return new Listener(chanel, /*responseSenderChanel,*/ consumer,queueName,receivedHandler,responseSender);
-
-        //}
-
-        //public static Listener CreateListener(  IModel chanel , string queueName, EventHandler<BasicDeliverEventArgs> receivedHandler)
-        //{
-        //    var consumer = ConsumerFactory.CreateConsumer(chanel, queueName);
-        //    return new Listener(chanel,   consumer ,queueName,receivedHandler);
-        //}
+        public static Listener CreateListener(string hostName, string queueName, EventHandler<BasicDeliverEventArgs> receivedHandler, ResponseObjectSender objectSender)
+        {
+            var connection = ConnectionFactory.CreateConection(hostName);
+            var requestChanel = ChanelFactory.CreateRequestChanel(queueName, connection);
 
 
+            var sender = PublisherFactory.CreateResponseSender(hostName, queueName);
 
+            var consumer = ConsumerFactory.CreateConsumer(requestChanel, queueName);
+            return new Listener(requestChanel, consumer, queueName, receivedHandler, sender, objectSender);
+        }
+
+ 
     }
 }
