@@ -82,7 +82,8 @@ namespace Service2.RMQComponents
             {
                 ReciveResponse(sender, e);
                 Consumer.HandleBasicCancelOk(Consumer.ConsumerTag);
-               // Consumer.HandleBasicConsumeOk(Consumer.ConsumerTag);
+                Consumer.HandleBasicConsumeOk(Consumer.ConsumerTag);
+                ResponseChanel.BasicAck(e.DeliveryTag, false);
             }
             else throw new ArgumentException("ReciveResponse must be not null");
         }

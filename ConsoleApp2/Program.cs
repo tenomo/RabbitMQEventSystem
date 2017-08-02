@@ -19,23 +19,23 @@ namespace ConsoleApp2
             Console.ReadKey();
             var conn = Service2.RMQComponents.ComponentsFactories.ConnectionFactory.CreateConection("localhost");
             //var listener = ListenerFactory.CreateListener(ChanelFactory.CreateChanel("test_lib",conn), "test_lib", ReceivedHandler, ResponseSender );
-            var listener = ListenerFactory.CreateListener("localhost", "test_lib", ReceivedHandler);//, BinarySender);
+            var listener = ListenerFactory.CreateListener("localhost", "test_lib", ReceivedHandler, BinarySender);
 
 
 
-            var Publisher = PublisherFactory.CreatePublisher("localhost", "test_lib");//, responseHandler);
+            //var Publisher = PublisherFactory.CreatePublisher("localhost", "test_lib", responseHandler);
 
-            for (int i = 0; i < 20; i++)
-            {
-                object id = i;
-                new TaskFactory().StartNew(() =>
-                {
-                    Thread.Sleep(3000);
-                    Publisher.Publish("Hello " + id);
-                    Console.WriteLine("[x] Send: " + "Hello " + id);
-                });
+            //for (int i = 0; i < 20; i++)
+            //{
+            //    object id = i;
+            //    new TaskFactory().StartNew(() =>
+            //    {
+            //        Thread.Sleep(3000);
+            //        Publisher.Publish("Hello " + id);
+            //        Console.WriteLine("[x] Send: " + "Hello " + id);
+            //    });
 
-            }
+            //}
             Console.WriteLine("Press any kay to exit");
             Console.ReadKey();
         }
@@ -51,10 +51,10 @@ namespace ConsoleApp2
         }
 
 
-        private static void responseHandler(object sender, BasicDeliverEventArgs basicDeliverEventArgs)
-        {
-            Console.WriteLine("\t\t" + Encoding.UTF8.GetString(basicDeliverEventArgs.Body));
-        }
+        //private static void responseHandler(object sender, BasicDeliverEventArgs basicDeliverEventArgs)
+        //{
+        //    Console.WriteLine("\t\t" + Encoding.UTF8.GetString(basicDeliverEventArgs.Body));
+        //}
 
     }
 }

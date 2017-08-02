@@ -54,7 +54,7 @@ namespace Service2.RMQComponents
             this.QueueName = queueName;
             this.ReceivedHandler = receivedHandler;
             this.responceSender = responceSender;
-            objectSender = this.objectSender;
+            this.objectSender = objectSender;
             this.consumer.Received += Consumer_Received;
         }
 
@@ -76,6 +76,9 @@ namespace Service2.RMQComponents
                     //    throw new ArgumentException("Routing key must be containe \"Request\"");
                     //}
                     this.ReceivedHandler(sender, e);
+   //consumer.HandleBasicConsumeOk(consumer.ConsumerTag);
+               //    consumer.HandleBasicCancelOk(consumer.ConsumerTag);
+                 //   ListenerChanel.BasicAck(e.DeliveryTag, false);
 
                     if (binarySender != null)
                     {
@@ -87,8 +90,7 @@ namespace Service2.RMQComponents
                         var objectBody = objectSender.Invoke(e);
                         responceSender.Publish(objectBody);
                     }
-                     consumer.HandleBasicConsumeOk(consumer.ConsumerTag);
-                 //   consumer.HandleBasicCancelOk(consumer.ConsumerTag);
+                   
                 }
                 catch (ArgumentException exception)
                 {
