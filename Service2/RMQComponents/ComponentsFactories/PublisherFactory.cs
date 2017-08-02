@@ -28,6 +28,15 @@ namespace Service2.RMQComponents.ComponentsFactories
         }
 
 
+
+        public static Publisher CreateResponseSender(string hostName, string queueName, IConnection connection)
+        { 
+            var responseChanel = ChanelFactory.CreateRequestChanel(queueName, connection);
+            var responseSender = new Publisher(responseChanel, queueName) {Type = EventType.Response};
+            return responseSender;
+        }
+
+
         public static Publisher CreatePublisher(string hostName, string queueName,
             EventHandler<BasicDeliverEventArgs> receivedHandler)
         {
