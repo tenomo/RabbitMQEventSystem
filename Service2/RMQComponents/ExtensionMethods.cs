@@ -16,7 +16,15 @@ namespace Service2.RMQComponents
     /// </summary>
     /// <param name="consumer"></param>
     /// <param name="chanel"></param>
-    public delegate void ResponseSender(BasicDeliverEventArgs e, IModel chanel, string contentType);
+    public delegate byte [] ResponseBynarySender(BasicDeliverEventArgs e  );
+
+    /// <summary>
+    /// Send client response.
+    /// </summary>
+    /// <param name="consumer"></param>
+    /// <param name="chanel"></param>
+    public delegate object  ResponseObjectSender(BasicDeliverEventArgs e);
+
 
     public static class ExtensionMethods
     {

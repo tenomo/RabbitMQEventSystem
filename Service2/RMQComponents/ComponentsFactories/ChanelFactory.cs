@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using RabbitMQ.Client;
 
 namespace Service2.RMQComponents.ComponentsFactories
@@ -55,6 +56,7 @@ namespace Service2.RMQComponents.ComponentsFactories
                 exclusive: false,
                 autoDelete: false,
                 arguments: arguments);
+            chanel.a
             return chanel;
         }
 
