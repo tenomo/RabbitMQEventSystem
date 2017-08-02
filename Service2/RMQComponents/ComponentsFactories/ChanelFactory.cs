@@ -56,7 +56,7 @@ namespace Service2.RMQComponents.ComponentsFactories
                 exclusive: false,
                 autoDelete: false,
                 arguments: arguments);
-            chanel.a
+         //   chanel.BasicAck();
             return chanel;
         }
 

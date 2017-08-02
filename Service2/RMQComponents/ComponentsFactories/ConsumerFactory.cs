@@ -21,7 +21,7 @@ namespace Service2.RMQComponents.ComponentsFactories
         {
             var consumer = new EventingBasicConsumer(chanel);
             chanel.BasicConsume(queue: queueName,
-                autoAck: true,
+                autoAck: false,
                 consumer: consumer);
 
             return consumer;

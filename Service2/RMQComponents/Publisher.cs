@@ -16,6 +16,9 @@ namespace Service2.RMQComponents
        
         public IModel RequestChanel { get; private set; }
         public IModel ResponseChanel { get; private set; }
+        
+        internal EventType Type { get;  set; }  = EventType.Request;
+        private string RoutiongKey => ExtensionMethods.CreateRoutinKey(QueueName, Type);
 
         /// <summary>
         /// RabbitMq event responseConsumer.
@@ -53,9 +56,10 @@ namespace Service2.RMQComponents
         }
 
 
-
+         
         internal Publisher( IModel requestChanel, string queueName )
         {
+            Type = EventType.Request;  
             this.RequestChanel = requestChanel; 
             QueueName = queueName;
 
@@ -64,6 +68,7 @@ namespace Service2.RMQComponents
 
         internal Publisher( IModel requestChanel, IModel responseChanel, string queueName, EventHandler<BasicDeliverEventArgs> reciveResponse, EventingBasicConsumer consumer)
         {
+            Type = EventType.Request; 
             this.RequestChanel = requestChanel;
             this.Consumer = consumer;
             QueueName = queueName;

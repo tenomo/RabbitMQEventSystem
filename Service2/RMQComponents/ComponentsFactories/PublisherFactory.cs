@@ -8,41 +8,7 @@ namespace Service2.RMQComponents.ComponentsFactories
 {
  public   class PublisherFactory
     {
-        //public static Publisher CreatePublisher(IConnection connection, IModel chanel, string queueName)
-        //{ 
-
-        //    return new Publisher( chanel,queueName );
-        //}
-
-
-        //public static Publisher CreatePublisher(IConnection connection, IModel chanel, string queueName,
-        //EventHandler<BasicDeliverEventArgs> receivedHandler)
-        //{
-
-        //    var consumer = ConsumerFactory.CreateConsumer(chanel, queueName);
-
-
-        //    return new Publisher(connection, chanel, queueName, consumer, receivedHandler
-        //    );
-        //}
-
-
-        //public static Publisher CreatePublisher(string hostName, string queueName,
-        //    EventHandler<BasicDeliverEventArgs> receivedHandler)
-        //{
-        //    var connection = ConnectionFactory.CreateConection(hostName);
-        //    var chanel = ChanelFactory.CreateChanel(queueName, connection);
-        //    var consumer = ConsumerFactory.CreateConsumer(chanel, queueName );
-        //    return new Publisher(connection, chanel,queueName,consumer,receivedHandler
-        //    );
-        //}
-
-        //public static Publisher CreatePublisher(string hostName, string queueName )
-        //{
-        //    var connection = ConnectionFactory.CreateConection(hostName);
-        //    var chanel = ChanelFactory.CreateChanel(queueName, connection); 
-        //    return new Publisher(connection, chanel, queueName);
-        //}
+        
 
 
         public static Publisher CreatePublisher(string hostName, string queueName)
@@ -52,7 +18,15 @@ namespace Service2.RMQComponents.ComponentsFactories
             return new Publisher(  requestChanel, queueName);
         }
 
-        
+        public static Publisher CreateResponseSender(string hostName, string queueName)
+        {
+            var connection = ConnectionFactory.CreateConection(hostName);
+            var responseChanel = ChanelFactory.CreateRequestChanel(queueName, connection);
+           var responseSender = new Publisher(responseChanel, queueName);
+            responseSender.Type = EventType.Response;
+            return responseSender;
+        }
+
 
         public static Publisher CreatePublisher(string hostName, string queueName,
             EventHandler<BasicDeliverEventArgs> receivedHandler)
