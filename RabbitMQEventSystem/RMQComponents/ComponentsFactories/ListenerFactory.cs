@@ -3,7 +3,7 @@ using Newtonsoft.Json.Serialization;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Service2.RMQComponents.ComponentsFactories
+namespace RabbitMQEventSystem.RMQComponents.ComponentsFactories
 {
   public  class ListenerFactory
     {

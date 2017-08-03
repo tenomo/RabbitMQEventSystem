@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Service2.RMQComponents.ComponentsFactories
+namespace RabbitMQEventSystem.RMQComponents.ComponentsFactories
 {
- public   class PublisherFactory
-    {
-        
-
-
+    public   class PublisherFactory
+    {         
         public static Publisher CreatePublisher(string hostName, string queueName)
         {
             var connection = ConnectionFactory.CreateConection(hostName);

@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Service2.RMQComponents
+namespace RabbitMQEventSystem.RMQComponents
 {
     public class Listener
-    {
-
+    { 
         private readonly Publisher responceSender;
         private readonly EventHandler<BasicDeliverEventArgs> ReceivedHandler;
         private readonly EventingBasicConsumer consumer;
@@ -71,14 +70,8 @@ namespace Service2.RMQComponents
                 try
                 {
                     if (this.ReceivedHandler == null) throw new ArgumentException("ReceivedHandler must be not null");
-                    //if (ExtensionMethods.isEventType(e.RoutingKey, EventType.Request))
-                    //{
-                    //    throw new ArgumentException("Routing key must be containe \"Request\"");
-                    //}
-                    this.ReceivedHandler(sender, e);
-   //consumer.HandleBasicConsumeOk(consumer.ConsumerTag);
-               //    consumer.HandleBasicCancelOk(consumer.ConsumerTag);
-                 //   ListenerChanel.BasicAck(e.DeliveryTag, false);
+                   
+                    this.ReceivedHandler(sender, e); 
 
                     if (binarySender != null)
                     {
@@ -90,7 +83,7 @@ namespace Service2.RMQComponents
                         var objectBody = objectSender.Invoke(e);
                         responceSender.Publish(objectBody);
                     }
-                   
+                    
                 }
                 catch (ArgumentException exception)
                 {

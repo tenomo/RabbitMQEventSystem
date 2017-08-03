@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceListener", "Service2\ServiceListener.csproj", "{80A47234-810D-44EC-9F57-841540803579}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.csproj", "{B86BB84C-3B2C-490E-9116-8FB0CC69A4DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQEventSystem", "Service2\RabbitMQEventSystem.csproj", "{80A47234-810D-44EC-9F57-841540803579}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{80A47234-810D-44EC-9F57-841540803579}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80A47234-810D-44EC-9F57-841540803579}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80A47234-810D-44EC-9F57-841540803579}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B86BB84C-3B2C-490E-9116-8FB0CC69A4DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B86BB84C-3B2C-490E-9116-8FB0CC69A4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B86BB84C-3B2C-490E-9116-8FB0CC69A4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B86BB84C-3B2C-490E-9116-8FB0CC69A4DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

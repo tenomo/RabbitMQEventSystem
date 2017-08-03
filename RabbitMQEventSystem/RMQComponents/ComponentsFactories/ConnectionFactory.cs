@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace Service2.RMQComponents.ComponentsFactories
+namespace RabbitMQEventSystem.RMQComponents.ComponentsFactories
 {
    public class ConnectionFactory
     {

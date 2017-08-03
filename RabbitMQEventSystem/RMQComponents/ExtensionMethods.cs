@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Service2.RMQComponents
+namespace RabbitMQEventSystem.RMQComponents
 { 
    public enum EventType
     {

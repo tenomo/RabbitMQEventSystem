@@ -3,8 +3,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using Service2.RMQComponents.ComponentsFactories;
-namespace Service2.RMQComponents
+using RabbitMQEventSystem.RMQComponents.ComponentsFactories;
+namespace RabbitMQEventSystem.RMQComponents
 {
    public class Publisher
     {
@@ -40,7 +40,7 @@ namespace Service2.RMQComponents
             serializationStream.Dispose();
 
             RequestChanel.BasicPublish(exchange: "",
-                routingKey:  ExtensionMethods.CreateRoutinKey(QueueName,EventType.Request),
+                routingKey: RoutiongKey,
                 basicProperties: properties, 
                 body: binaryRequest);
         }
@@ -50,7 +50,7 @@ namespace Service2.RMQComponents
             var properties = RequestChanel.CreateBasicProperties();
             properties.Persistent = true;
             RequestChanel.BasicPublish(exchange: "",
-                routingKey: ExtensionMethods.CreateRoutinKey(QueueName, EventType.Request),
+                routingKey: RoutiongKey,
                 basicProperties: properties,
                 body: body);
         }
@@ -81,9 +81,9 @@ namespace Service2.RMQComponents
             if (this.ReciveResponse != null /*&& ExtensionMethods.isEventType(e.RoutingKey,EventType.Response)*/)
             {
                 ReciveResponse(sender, e);
-                Consumer.HandleBasicCancelOk(Consumer.ConsumerTag);
-                Consumer.HandleBasicConsumeOk(Consumer.ConsumerTag);
-                ResponseChanel.BasicAck(e.DeliveryTag, false);
+              Consumer?.HandleBasicCancelOk(Consumer.ConsumerTag);
+                Consumer?.HandleBasicConsumeOk(Consumer.ConsumerTag);
+                ResponseChanel?.BasicAck(e.DeliveryTag, false);
             }
             else throw new ArgumentException("ReciveResponse must be not null");
         }
