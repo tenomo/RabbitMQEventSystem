@@ -34,13 +34,13 @@ namespace RabbitMQEventSystem.RMQComponents.ComponentsFactories
 
 
         public static Publisher CreatePublisher(string hostName, string queueName,
-            EventHandler<BasicDeliverEventArgs> receivedHandler)
+            EventHandler<BasicDeliverEventArgs> responseHandler)
         {
             var connection = ConnectionFactory.CreateConection(hostName);
             var requestChanel = ChanelFactory.CreateRequestChanel(queueName, connection);
             var responseChanel = ChanelFactory.CreateResponseChanel(queueName, connection);
             var consumer = ConsumerFactory.ReponceConsumer(responseChanel,  queueName);
-            return new Publisher(requestChanel,responseChanel, queueName, receivedHandler, consumer);
+            return new Publisher(requestChanel,responseChanel, queueName, responseHandler, consumer);
         }
 
 
@@ -55,13 +55,13 @@ namespace RabbitMQEventSystem.RMQComponents.ComponentsFactories
 
 
         public static Publisher CreatePublisher(string hostName, string queueName,
-            EventHandler<BasicDeliverEventArgs> receivedHandler, IDictionary<string, object> arguments)
+            EventHandler<BasicDeliverEventArgs> responseHandler, IDictionary<string, object> arguments)
         {
             var connection = ConnectionFactory.CreateConection(hostName);
             var requestChanel = ChanelFactory.CreateRequestChanel(queueName, connection, arguments);
             var responseChanel = ChanelFactory.CreateResponseChanel(queueName, connection, arguments);
             var consumer = ConsumerFactory.ReponceConsumer(responseChanel, queueName);
-            return new Publisher(requestChanel, responseChanel, queueName, receivedHandler, consumer);
+            return new Publisher(requestChanel, responseChanel, queueName, responseHandler, consumer);
         }
 
 
